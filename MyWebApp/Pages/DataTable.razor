@@ -1,0 +1,47 @@
+﻿@page "/datatable"
+<h1>Meine Daten</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Vorname</th>
+            <th>Ort</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in items)
+        {
+        <tr>
+            <td>@item.Name.ToString()</td>
+            <td>@item.FirstName.ToString()</td>
+            <td>@item.Location.ToString()</td>
+            <td>
+                <button @onclick="() => OnDeleteItem(item)">Löschen</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    @using System.Collections.ObjectModel;
+    private ObservableCollection<DataItem> items = new ObservableCollection<DataItem>();
+    private void OnDeleteItem(DataItem item)
+    {
+        items.Remove(item);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        DataItem item1 = new DataItem() { Name = "Müller", FirstName = "Hans", Location="München" };
+        items.Add(item1);
+        DataItem item2 = new DataItem() { Name = "Maier", FirstName = "Erika", Location = "Berlin" };
+        items.Add(item2);
+        DataItem item3 = new DataItem() { Name = "Schulz", FirstName = "Lisa", Location = "Ramsau am Dachstein" };
+        items.Add(item3);
+
+    }
+}
+
+
+

@@ -1,0 +1,57 @@
+﻿@page "/datatableex"
+<h1>Meine Daten</h1>
+
+<RadzenDataGrid AllowFiltering="true" 
+                AllowColumnResize="true" 
+                FilterMode="FilterMode.Advanced" 
+                PageSize="5" AllowPaging="true" 
+                AllowSorting="true"
+                Data="@items" 
+                @ref="itemsGrid"
+                TItem="DataItem" 
+                ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="DataItem" Property="Name" Filterable="false" Title="Name" Frozen="true" Width="150px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DataItem" Property="FirstName" Filterable="false" Title="Vorname" Frozen="true" Width="150px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DataItem" Property="Location" Filterable="false" Title="Ort" Frozen="true" Width="150px" TextAlign="TextAlign.Center" />
+
+        <RadzenDataGridColumn TItem="DataItem" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+            <Template Context="item">
+                <RadzenButton Text="Löschen" Click="() => OnDeleteItem(item)">
+                </RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+
+    @code {
+        @using System.Collections.ObjectModel;
+
+        RadzenDataGrid<DataItem> itemsGrid;
+
+        private ObservableCollection<DataItem> items = new ObservableCollection<DataItem>();
+
+        private void OnDeleteItem(DataItem item)
+        {
+            items.Remove(item);
+            itemsGrid.Reload();
+
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            DataItem item1 = new DataItem() { Name = "Müller", FirstName = "Hans", Location = "München" };
+            items.Add(item1);
+            DataItem item2 = new DataItem() { Name = "Maier", FirstName = "Erika", Location = "Berlin" };
+            items.Add(item2);
+            DataItem item3 = new DataItem() { Name = "Schulz", FirstName = "Lisa", Location = "Ramsau am Dachstein" };
+            items.Add(item3);
+
+        }
+
+    }
+
+
+
